@@ -30,7 +30,7 @@ export default function Home() {
         <p className="mt-3 mb-3">
           If you want to contact the author of this application, you can find me from <a href="https://www.nexusmods.com/users/169060728">Nexusmods</a>.
         </p>
-        <img src="jsLogovalkonenpieni.png"></img>
+        <img src="https://i.imgur.com/MFyo6QH.png"></img>
       </div>
     
     </main>
