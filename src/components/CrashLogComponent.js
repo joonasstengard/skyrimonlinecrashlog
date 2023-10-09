@@ -298,6 +298,18 @@ function CrashLogComponent() {
         return "Possibly a memory heap related issue. ";
       } if (lowercaseRegistersLog.includes("ostim.dll")) {
         return "Probably an issue related to the mod Ostim. ";
+      } if (lowercaseRegistersLog.includes("armor")) {
+        //trying to find the animation causing issues
+        const lines = lowercaseRegistersLog.split('\n');
+        // Iterate through each line
+        for (const line of lines) {
+          // Check if the line includes name
+          if (line.includes("armor")) {
+            // If found, return the line
+            return "Can't give a simple answer for this log, but it seems like it could be related to: "+line.trim();
+          }
+        }
+        return "Can't seem to pinpoint the issue. ";
       } if (lowercaseRegistersLog.includes("bssscript::internal::virtualmachine")) {
         return "The crash log seems to be pointing to BSScript::Internal::VirtualMachine. Unfortunately, there is extremely little information available about what that means. Don't be fooled by the word script in the name though, this crash probably has nothing to do with Papyrus. Try to get another crash log. ";
       } else {
