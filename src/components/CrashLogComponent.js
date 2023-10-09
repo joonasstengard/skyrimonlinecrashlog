@@ -265,8 +265,17 @@ function CrashLogComponent() {
         //KOKEELLINEN
         return "The crash log is pointing to SaveStorageWrapper. There is some speculation online that it might be related to crashing during saving or auto-saving, or even problems in the save file. But that is unconfirmed and seems highly unlikely as following crash logs in this situation tend to point to something else. Try to get another crash and see if we can get a more informative log. ";
       } if (lowercaseRegistersLog.includes("ninode")) {
-        //KOKEELLINEN
-        return "Possibly a skeleton related issue. ";
+        //trying to find the NiNode causing issues
+        const lines = lowercaseRegistersLog.split('\n');
+        // Iterate through each line
+        for (const line of lines) {
+          // Check if the line includes name
+          if (line.includes("name:")) {
+            // If found, return the line
+            return "Looks like it might be a NiNode issue, possibly related to: "+line.trim();
+          }
+        }
+        return "Possibly a NiNode related issue. NiNodes are skinned and rigged meshes. This time, the problematic NiNode was not identified. You can try getting a new crash log to see if we can find it. ";
       } if (lowercaseRegistersLog.includes("hka") || (lowercaseRegistersLog.includes("hkb"))) {
         //trying to find the animation causing issues
         const lines = lowercaseRegistersLog.split('\n');
@@ -289,6 +298,8 @@ function CrashLogComponent() {
         return "Possibly a memory heap related issue. ";
       } if (lowercaseRegistersLog.includes("ostim.dll")) {
         return "Probably an issue related to the mod Ostim. ";
+      } if (lowercaseRegistersLog.includes("bssscript::internal::virtualmachine")) {
+        return "The crash log seems to be pointing to BSScript::Internal::VirtualMachine. Unfortunately, there is extremely little information available about what that means. Don't be fooled by the word script in the name though, this crash probably has nothing to do with Papyrus. Try to get another crash log. ";
       } else {
         return "Unable to identify a clear cause for the crash. ";
       }
