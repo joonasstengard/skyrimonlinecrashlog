@@ -242,7 +242,7 @@ function CrashLogComponent() {
           if (line.includes("Full Name:")) {
             // If found, return the line
             var lineWithoutPrefix = line.replace("Full Name:", "");
-            return "Could be an issue with a BSLightingShader. Possibly related to the following: "+lineWithoutPrefix.trim();
+            return "Possibly an issue with a BSLightingShader. Possibly related to the following: "+lineWithoutPrefix.trim();
           }
         }
         return "Possibly a BSLightingShader related issue. ";
@@ -281,6 +281,12 @@ function CrashLogComponent() {
         return "Possibly an animation related issue. Try again with a new log if the tool fails to identify the faulty animation. ";
       } if (lowercaseRegistersLog.includes("hdtsmp") || lowercaseRegistersLog.includes("hdt-smp")) {
         return "Possible HDT-SMP related issue. ";
+      }if (lowercaseRegistersLog.includes("bsxaudio2")) {
+        return "Seems like a BSXAudio2 related issue. There is very little information related to this issue available on the internet. Reportedly updating drivers/direct x 11/vsruntime can remedy this issue. ";
+      }if (lowercaseRegistersLog.includes("memoryheap")) {
+        return "Possibly a memory heap related issue. ";
+      }if (lowercaseRegistersLog.includes("ostim.dll")) {
+        return "Probably an issue related to the mod Ostim. ";
       } else {
         return "Unable to identify a clear cause for the crash. ";
       }
