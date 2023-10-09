@@ -177,7 +177,17 @@ function CrashLogComponent() {
       if (lowercaseRegistersLog.includes("kdeleted")) {
         return "It seems that the crash might be caused by a deleted reference. This can happen when content from Mod A or Skyrim.esm is deleted by Mod B, which is then accessed by Mod C. Check the FormID section below to see which reference might've been deleted. ";
       } if (lowercaseRegistersLog.includes("facegen")) {
-        return "Probably a FaceGen issue. Possibly missing or corrupt FaceGen data. ";
+        //getting the line that includes name
+        const lines = lowercaseRegistersLog.split('\n');
+        // terate through each line
+        for (const line of lines) {
+          //Check if the line includes "name"
+          if (line.includes("name:")) {
+            // If found, return the line
+            return "Probably a FaceGen issue. Could be missing or corrupt FaceGen data or some other NPC face related problem. Possibly related to: "+line.trim();
+          }
+        }
+        return "Probably a FaceGen issue. Possibly missing or corrupt FaceGen data or some other NPC face related problem. ";
       } if (lowercaseRegistersLog.includes("movementagentpathfollowervirtual")) {
         return "Seems like an issue related to follower pathing. People who use follower mods or follower framework mods report experiencing this crash, especially when travelling. This can also be caused by other allies, summons or animals, even horses. If there was an NPC following you when this crash happened, you can try disabling related mods or tweaking with their mods settings. ";
       } if (lowercaseRegistersLog.includes("tesobjectrefr")) {
