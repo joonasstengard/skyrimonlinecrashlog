@@ -267,6 +267,18 @@ function CrashLogComponent() {
       } if (lowercaseRegistersLog.includes("ninode")) {
         //KOKEELLINEN
         return "Possibly a skeleton related issue. ";
+      } if (lowercaseRegistersLog.includes("hka") || (lowercaseRegistersLog.includes("hkb"))) {
+        //trying to find the animation causing issues
+        const lines = lowercaseRegistersLog.split('\n');
+        // Iterate through each line
+        for (const line of lines) {
+          // Check if the line includes name
+          if (line.includes("name:")) {
+            // If found, return the line
+            return "It might be an animation issue, possibly related to: "+line.trim();
+          }
+        }
+        return "Possibly an animation related issue. Try again with a new log if the tool fails to identify the faulty animation. ";
       } if (lowercaseRegistersLog.includes("hdtsmp") || lowercaseRegistersLog.includes("hdt-smp")) {
         return "Possible HDT-SMP related issue. ";
       } else {
