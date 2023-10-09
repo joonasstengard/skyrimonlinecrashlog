@@ -26,13 +26,37 @@ function CrashLogComponent() {
   const generateReport = () => {
 
     //loading text at the start, in case it takes a while. this will get overridden once the report is ready
+    //initializing others because ppl can post multiple logs in a row
     setCrashLogReportTitle("Generating report... This should take less than 5 seconds. ")
     setCrashLogReportCause("");
+    setCrashLogReportModifiedBy("");
     setCrashLogReportPlugin("");
     setCrashLogReportFormID("");
     setCrashLogReportName("");
+    setCrashLogReportHowToProceed("");
 
     
+    
+
+    //first and third line are used for checking for specific erraneous inputs, 2nd line is used for checking if it exists
+    const crashLogLines = crashLogText.split('\n');
+    const firstLineOfCrashLog = crashLogLines[0];
+    const secondLineOfCrashLog = crashLogLines[1];
+    const thirdLineOfCrashLog = crashLogLines[2];
+
+    if(firstLineOfCrashLog === undefined || secondLineOfCrashLog === undefined || thirdLineOfCrashLog === undefined){
+      setCrashLogReportTitle("It appears that you did not paste a full crash log. ")
+        return;
+    }
+
+    if(firstLineOfCrashLog.includes("CLA")){
+      setCrashLogReportTitle("It seems that you posted the output of another crash log analyzing tool, instead of a crash log. ");
+      return;
+    }if(thirdLineOfCrashLog.includes("NetScriptFramework") || (firstLineOfCrashLog.includes("NetScriptFramework"))){
+      setCrashLogReportTitle("It seems that you posted a NetScriptFramework crash log. Unfortunately, NetScriptFramework crash logs are not supported by this tool. ");
+      return;
+    }
+
     //checks if the crash log includes the words REGISTERS:, STACK: AND MODULES:. if it doesn't it's not a valid crash log that can be read
     const wordsToCheck = ["REGISTERS:", "STACK:", "MODULES:"];
     for (const word of wordsToCheck) {
@@ -40,18 +64,6 @@ function CrashLogComponent() {
         setCrashLogReportTitle("It appears that you did not paste a valid crash log. Check your input. ")
         return;
       }
-    }
-
-
-    const crashLogLines = crashLogText.split('\n');
-    const firstLineOfCrashLog = crashLogLines[0];
-    const thirdLineOfCrashLog = crashLogLines[2];
-    if(firstLineOfCrashLog.includes("CLA")){
-      setCrashLogReportTitle("It seems that you posted the output of another crash log analyzing tool, instead of a crash log. ");
-      return;
-    }if(thirdLineOfCrashLog.includes("NetScriptFramework")){
-      setCrashLogReportTitle("It seems that you posted a NetScriptFramework crash log. Unfortunately, NetScriptFramework crash logs are not supported by this tool. ");
-      return;
     }
 
 
@@ -76,14 +88,13 @@ function CrashLogComponent() {
         for (const line of linesProbableCallStack) {
           // Check if the line includes "dyndolod"
           if (line.includes("dyndolod")) {
-            setCrashLogReportTitle("=== Skyrim Online Crash Log v1.0 Report ===");
+            setCrashLogReportTitle("== Skyrim Online Crash Log v1.0 Report ==");
             setCrashLogReportCause("It seems likely that the crash was caused by DynDOLOD. ");
             return;
           }
         }
 
-    //this is what is found from the "REGISTERS:"" portion
-    var reasonForCrash = handleRegistersLog(registersLog);
+    
 
     //searching if the registers section includes "modified by:", if it does, this is the line
     var modifiedByLine = searchForModifiedByFromRegisters(registersLog);
@@ -91,7 +102,9 @@ function CrashLogComponent() {
     //making a string with contents of both REGISTERS section and STACK section
     const endIndexStack = truncatedLog.indexOf("MODULES:");
     const registersAndStackLog = endIndexStack !== -1 ? truncatedLog.substring(0, endIndexStack) : truncatedLog;
-    //console.log('===REGISTER JA STACK=== '+registersAndStackLog);
+
+    //searching for a reason for the crash
+    var reasonForCrash = handleRegistersLog(registersLog, registersAndStackLog);
 
     var espThatCausedCrash = searchForPluginFromRegistersAndStack(registersAndStackLog);
     //trimming the word "file:" from this
@@ -107,8 +120,8 @@ function CrashLogComponent() {
     
     //generating final report--------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------------------------------
-    setCrashLogReportTitle("=== Skyrim Online Crash Log v1.0 Report ===");
-    setCrashLogReportCause("Reason for crash: "+reasonForCrash);
+    setCrashLogReportTitle("== Skyrim Online Crash Log v1.0 Report ==");
+    setCrashLogReportCause(reasonForCrash);
     if(modifiedByLine !== "Not found. "){
       if (modifiedByLine.startsWith("Modified by:")) {
         // Use the `replace` method to remove the prefix
@@ -129,7 +142,7 @@ function CrashLogComponent() {
     if(formIDThatCausedCrash !== "Not found. "){
       setCrashLogReportFormID("The following record might have been involved in the crash: "+formIDThatCausedCrash+". ");
     }else{
-      setCrashLogReportFormID("Unable to identify a culprit FormID from this crash log. ");
+      setCrashLogReportFormID("Unable to identify more information from this crash log. ");
     }
 
     //how to proceed instructions, based on if plugins or formids were identified
@@ -154,7 +167,7 @@ function CrashLogComponent() {
   };
 
     //function for running conditionals on the REGISTERS portion of the crash log, called by generateReport
-    function handleRegistersLog(registersLog){
+    function handleRegistersLog(registersLog, registersAndStackLog){
       //Convert to lowercase for case-insensitive comparison
       const lowercaseRegistersLog = registersLog.toLowerCase();
 
@@ -167,6 +180,8 @@ function CrashLogComponent() {
       } if (lowercaseRegistersLog.includes("facegen")) {
         console.log('The word "facegen" was found in the text!');
         return "Probably a FaceGen issue. Possibly missing or corrupt FaceGen data. ";
+      } if (lowercaseRegistersLog.includes("movementagentpathfollowervirtual")) {
+        return "Seems like an issue related to follower pathing. People who use follower mods or follower framework mods report experiencing this crash, especially when travelling. This can also be caused by other allies, summons or animals, even horses. If there was an NPC following you when this crash happened, you can try disabling related mods or tweaking with their mods settings. ";
       } if (lowercaseRegistersLog.includes("hdtsmp") || lowercaseRegistersLog.includes("hdt-smp")) {
         console.log('The word "hdtsmp" was found in the text!');
         return "Possible HDT-SMP related issue. ";
@@ -191,25 +206,82 @@ function CrashLogComponent() {
         const lines = lowercaseRegistersLog.split('\n');
         // Iterate through each line
         for (const line of lines) {
-          // Check if the line includes "formid"
+          // Check if the line includes "textures"
           if (line.includes("textures")) {
             // If found, return the line
             return "The following texture is seemingly causing an issue: "+line.trim();
           }
         }
         return "Possibly an issue with a texture. ";
-      }  if (lowercaseRegistersLog.includes("ninode")) {
+      } if (lowercaseRegistersLog.includes(".nif")) {
+        console.log('The word .nif was found in the text!');
+        //getting the line that includes .nif, in hopes that its the filepath or other indication of it
+        const lines = lowercaseRegistersLog.split('\n');
+        // Iterate through each line
+        for (const line of lines) {
+          // Check if the line includes ".nif"
+          if (line.includes(".nif")) {
+            // If found, return the line
+            return "The following mesh is seemingly causing an issue: "+line.trim();
+          }
+        }
+        return "Possibly an issue with a mesh. ";
+      } if (lowercaseRegistersLog.includes("testopicinfo")) {
+        //KOKEELLINEN
+        console.log('The word TESTopicInfo was found in the text!');
+        return "Seems like a dialog related issue. ";
+      } if (lowercaseRegistersLog.includes("ninode")) {
         //KOKEELLINEN
         console.log('The word ninode was found in the text!');
         return "Possibly a skeleton related issue. ";
-      } if (lowercaseRegistersLog.includes("bslightningshader")) {
+      } if (lowercaseRegistersLog.includes("bslightingshadermaterialenvmap")) {                     
+        console.log('The word BSLightingShaderMaterialEnvmap was found in the text!');
+        //getting the line that includes Full Name, for more info
+        const lines = registersAndStackLog.split('\n');
+        // Iterate through each line
+        for (const line of lines) {
+          // Check if the line includes ".nif"
+          if (line.includes("Full Name:")) {
+            // If found, return the line
+            var lineWithoutPrefix = line.replace("Full Name:", "");
+            return "Seems like an issue with a BSLightingShaderMaterialEnvmap. Possibly related to the following: "+lineWithoutPrefix.trim();
+          }
+        }
+        return "Seems like an issue with a BSLightingShaderMaterialEnvmap. ";
+      } if (lowercaseRegistersLog.includes("bslightingshader")) {
         //KOKEELLINEN
         console.log('The word BSLightingShader was found in the text!');
+        //getting the line that includes Full Name, for more info
+        const lines = registersAndStackLog.split('\n');
+        // Iterate through each line
+        for (const line of lines) {
+          // Check if the line includes ".nif"
+          if (line.includes("Full Name:")) {
+            // If found, return the line
+            var lineWithoutPrefix = line.replace("Full Name:", "");
+            return "Could be an issue with a BSLightingShader. Possibly related to the following: "+lineWithoutPrefix.trim();
+          }
+        }
         return "Possibly a BSLightingShader related issue. ";
       } if (lowercaseRegistersLog.includes("playercharacter")) {
         //KOKEELLINEN
         console.log('The word PlayerCharacter was found in the text!');
         return "Possibly an issue related to the Player character. ";
+      } if (lowercaseRegistersLog.includes("bsgeometrylistcullingprocess")) {
+        //KOKEELLINEN
+        console.log('The word BSGeometryListCullingProcess was found in the text!');
+        return "The crash is related to BSGeometryListCullingProcess. Unfortunately, the author of this application is not very familiar with what that means. From Google, I was able to find speculation that it might be related to Occlusion planes or cubes in a cell, but I can't confirm this. Mods that have been reported to cause this issue include at least FacelightPlus and eFPS. ";
+      } if (lowercaseRegistersLog.includes("bsgeometrylistcullingprocess")) {
+        //KOKEELLINEN
+        console.log('The word BSGeometryListCullingProcess was found in the text!');
+        return "The crash is related to BSGeometryListCullingProcess. Unfortunately, the author of this application is not very familiar with what that means. From Google, I was able to find speculation that it might be related to Occlusion planes or cubes in a cell, but I can't confirm this. Mods that have been reported to cause this issue include at least FacelightPlus and eFPS. ";
+      } if (lowercaseRegistersLog.includes("shadowscenenode")) {
+        //KOKEELLINEN
+        return "Looks like a ShadowSceneNode related crash. ShadowSceneNode issues are very generic and despite the name, they often aren't directly related to shadows. Unfortunately it's hard to give detailed help for this problem, but you can do a google search for ShadowSceneNode to find discussions and possible solutions for this problem. ";
+      } if (lowercaseRegistersLog.includes("savestoragewrapper")) {
+        //KOKEELLINEN
+        console.log('The word SaveStorageWrapper was found in the text!');
+        return "The crash log is pointing to SaveStorageWrapper. There is some speculation online that it might be related to crashing during saving or auto-saving, or even problems in the save file. But that is unconfirmed and seems highly unlikely as following crash logs in this situation tend to point to something else. Try to get another crash and see if we can get a more informative log. ";
       } else {
         console.log('Could not identify any issue keywords from REGISTERS. ');
         return "Unable to identify a clear cause for the crash. ";
@@ -274,9 +346,7 @@ function CrashLogComponent() {
         
         //Check if the line includes "name"
         if (line.includes("name:")) {
-          console.log("Found a name! here: "+line.trim());
           nameFormIdStr = line.trim();
-          console.log('checking if it works: '+crashLogReportName);
         }
         // Check if the line includes "formid"
         if (line.includes("formid:")) {
@@ -315,21 +385,21 @@ function CrashLogComponent() {
     <div className="container flex flex-col items-center justify-center mx-auto mt-10">
       <textarea
         placeholder="Paste your Crash Log here."
-        className="border border-gray-600 w-3/5 p-2 mt-2 rounded-md font-semibold hover:border-gray-700 bg-black h-64 resize-y"
+        className="border border-gray-600 w-3/5 p-2 mt-2 rounded-md font-semibold hover:border-gray-700 bg-black bg-opacity-75 h-64 resize-y"
         id="crashLogInput"
         value={crashLogText} // Bind the value of the textarea to the state variable
         onChange={handleTextareaChange} // Call handleTextareaChange when the textarea changes
       />
       <button
-        className="border border-gray-600 mt-6 p-3 rounded-md hover:border-gray-700"
+        className="border border-gray-600 mt-3 p-3 rounded-md hover:border-gray-700 bg-black bg-opacity-75"
         onClick={generateReport} // Call generateReport when the button is clicked
       >
         Generate report
       </button>
 
       <h4 className="text-3xl mt-10">Report</h4>
-      <div className="border border-gray-600 w-3/5 p-2 mt-5 rounded-md font-semibold bg-black resize-y">
-          <p className="mt-3 mb-3">{crashLogReportTitle}</p>
+      <div className="border border-gray-600 w-3/5 pt-2 pl-4 pr-4 pb-4 mt-3 rounded-md font-semibold bg-black bg-opacity-75 resize-y">
+          <p className="mt-3 mb-3 text-center">{crashLogReportTitle}</p>
           <p className="mt-3 mb-3">{crashLogReportCause}</p>
           <p className="mt-3 mb-3">{crashLogReportModifiedBy}</p>
           <p className="mt-3 mb-3">{crashLogReportPlugin}</p>

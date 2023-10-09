@@ -17,8 +17,20 @@
 }
 
 body {
-  color: white;
-  background: black;
+  color: #ebebeb;
+  background-image: url('/dwarfimg.png'), url('/lichimg.png'); /* Multiple background images separated by a comma */
+  background-size: cover, cover; /* Set the size for both background images */
+  background-repeat: no-repeat, no-repeat; /* Prevent both images from repeating */
+  background-position: center top, center bottom;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+  margin: 0;
+  padding: 0;
+  
+  /*background: black;*/
+}
+
+p {
+  font-size: 18px;
 }
 
 h1{
@@ -27,4 +39,13 @@ h1{
 
 a{
   color:#e8e5c5;
+}
+
+
+
+
+
+/* For Firefox */
+textarea {
+  scrollbar-color: black gray; /* Thumb and track colors */
 }
