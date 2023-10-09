@@ -175,33 +175,22 @@ function CrashLogComponent() {
       
       //searching for keywords from the REGISTERS log
       if (lowercaseRegistersLog.includes("kdeleted")) {
-        console.log('The word "kdeleted" was found in the text!');
         return "It seems that the crash might be caused by a deleted reference. This can happen when content from Mod A or Skyrim.esm is deleted by Mod B, which is then accessed by Mod C. Check the FormID section below to see which reference might've been deleted. ";
       } if (lowercaseRegistersLog.includes("facegen")) {
-        console.log('The word "facegen" was found in the text!');
         return "Probably a FaceGen issue. Possibly missing or corrupt FaceGen data. ";
       } if (lowercaseRegistersLog.includes("movementagentpathfollowervirtual")) {
         return "Seems like an issue related to follower pathing. People who use follower mods or follower framework mods report experiencing this crash, especially when travelling. This can also be caused by other allies, summons or animals, even horses. If there was an NPC following you when this crash happened, you can try disabling related mods or tweaking with their mods settings. ";
-      } if (lowercaseRegistersLog.includes("hdtsmp") || lowercaseRegistersLog.includes("hdt-smp")) {
-        console.log('The word "hdtsmp" was found in the text!');
-        return "Possible HDT-SMP related issue. ";
       } if (lowercaseRegistersLog.includes("tesobjectrefr")) {
-        console.log('The word "TESObjectREFR" was found in the text!');
         return "Probably an issue with an Object Reference (this could be an item or an NPC placed or modified by a mod). ";
       } if (lowercaseRegistersLog.includes("tesnpc")) {
-        console.log('The word "TESNPC" was found in the text!');
         return "Probably an issue with an NPC. ";
       } if (lowercaseRegistersLog.includes("navmesh")) {
-        console.log('The word navmesh was found in the text!');
         return "Seems like a navmesh related issue. ";
       } if (lowercaseRegistersLog.includes("tesobjectcell")) {
-        console.log('The word TESObjectCELL was found in the text!');
         return "Probably an issue with a cell. ";
       } if (lowercaseRegistersLog.includes("bgslocation")) {
-        console.log('The word BGSLocation was found in the text!');
         return "Probably an issue related to a location. ";
       } if (lowercaseRegistersLog.includes("textures")) {
-        console.log('The word TEXTURES was found in the text!');
         //getting the line that includes textures, in hopes that its the filepath or other indication of the texture
         const lines = lowercaseRegistersLog.split('\n');
         // Iterate through each line
@@ -214,7 +203,6 @@ function CrashLogComponent() {
         }
         return "Possibly an issue with a texture. ";
       } if (lowercaseRegistersLog.includes(".nif")) {
-        console.log('The word .nif was found in the text!');
         //getting the line that includes .nif, in hopes that its the filepath or other indication of it
         const lines = lowercaseRegistersLog.split('\n');
         // Iterate through each line
@@ -228,14 +216,8 @@ function CrashLogComponent() {
         return "Possibly an issue with a mesh. ";
       } if (lowercaseRegistersLog.includes("testopicinfo")) {
         //KOKEELLINEN
-        console.log('The word TESTopicInfo was found in the text!');
         return "Seems like a dialog related issue. ";
-      } if (lowercaseRegistersLog.includes("ninode")) {
-        //KOKEELLINEN
-        console.log('The word ninode was found in the text!');
-        return "Possibly a skeleton related issue. ";
       } if (lowercaseRegistersLog.includes("bslightingshadermaterialenvmap")) {                     
-        console.log('The word BSLightingShaderMaterialEnvmap was found in the text!');
         //getting the line that includes Full Name, for more info
         const lines = registersAndStackLog.split('\n');
         // Iterate through each line
@@ -250,7 +232,6 @@ function CrashLogComponent() {
         return "Seems like an issue with a BSLightingShaderMaterialEnvmap. ";
       } if (lowercaseRegistersLog.includes("bslightingshader")) {
         //KOKEELLINEN
-        console.log('The word BSLightingShader was found in the text!');
         //getting the line that includes Full Name, for more info
         const lines = registersAndStackLog.split('\n');
         // Iterate through each line
@@ -265,25 +246,28 @@ function CrashLogComponent() {
         return "Possibly a BSLightingShader related issue. ";
       } if (lowercaseRegistersLog.includes("playercharacter")) {
         //KOKEELLINEN
-        console.log('The word PlayerCharacter was found in the text!');
         return "Possibly an issue related to the Player character. ";
       } if (lowercaseRegistersLog.includes("bsgeometrylistcullingprocess")) {
         //KOKEELLINEN
-        console.log('The word BSGeometryListCullingProcess was found in the text!');
         return "The crash is related to BSGeometryListCullingProcess. Unfortunately, the author of this application is not very familiar with what that means. From Google, I was able to find speculation that it might be related to Occlusion planes or cubes in a cell, but I can't confirm this. Mods that have been reported to cause this issue include at least FacelightPlus and eFPS. ";
       } if (lowercaseRegistersLog.includes("bsgeometrylistcullingprocess")) {
         //KOKEELLINEN
-        console.log('The word BSGeometryListCullingProcess was found in the text!');
         return "The crash is related to BSGeometryListCullingProcess. Unfortunately, the author of this application is not very familiar with what that means. From Google, I was able to find speculation that it might be related to Occlusion planes or cubes in a cell, but I can't confirm this. Mods that have been reported to cause this issue include at least FacelightPlus and eFPS. ";
       } if (lowercaseRegistersLog.includes("shadowscenenode")) {
         //KOKEELLINEN
         return "Looks like a ShadowSceneNode related crash. ShadowSceneNode issues are very generic and despite the name, they often aren't directly related to shadows. Unfortunately it's hard to give detailed help for this problem, but you can do a google search for ShadowSceneNode to find discussions and possible solutions for this problem. ";
+      } if (lowercaseRegistersLog.includes("bgsloadgamebuffer")) {
+        //KOKEELLINEN
+        return "The crash log is pointing to BGSLoadGameBuffer. There is speculation online that this issue might be related to your save file and that tweaking with your EngineFixes.toml settings will solve this. First step: download the mod SSE Engine Fixes. Then locate the file EngineFixes.toml and replace SaveGameMaxSize = false with true. You can also try loading an earlier save and see if it fixes this issue. ";
       } if (lowercaseRegistersLog.includes("savestoragewrapper")) {
         //KOKEELLINEN
-        console.log('The word SaveStorageWrapper was found in the text!');
         return "The crash log is pointing to SaveStorageWrapper. There is some speculation online that it might be related to crashing during saving or auto-saving, or even problems in the save file. But that is unconfirmed and seems highly unlikely as following crash logs in this situation tend to point to something else. Try to get another crash and see if we can get a more informative log. ";
+      } if (lowercaseRegistersLog.includes("ninode")) {
+        //KOKEELLINEN
+        return "Possibly a skeleton related issue. ";
+      } if (lowercaseRegistersLog.includes("hdtsmp") || lowercaseRegistersLog.includes("hdt-smp")) {
+        return "Possible HDT-SMP related issue. ";
       } else {
-        console.log('Could not identify any issue keywords from REGISTERS. ');
         return "Unable to identify a clear cause for the crash. ";
       }
 
