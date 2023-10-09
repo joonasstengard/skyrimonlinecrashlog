@@ -279,13 +279,15 @@ function CrashLogComponent() {
           }
         }
         return "Possibly an animation related issue. Try again with a new log if the tool fails to identify the faulty animation. ";
+      } if (lowercaseRegistersLog.includes("movementpathmanagerarbiter")) {
+        return "Seems like an NPC pathing related issue. See below if the tool is able to give more details about what is causing it. For more information, you can also google for MovementPathManagerArbiter and see discussions about other people having the same issue. ";
       } if (lowercaseRegistersLog.includes("hdtsmp") || lowercaseRegistersLog.includes("hdt-smp")) {
         return "Possible HDT-SMP related issue. ";
-      }if (lowercaseRegistersLog.includes("bsxaudio2")) {
+      } if (lowercaseRegistersLog.includes("bsxaudio2")) {
         return "Seems like a BSXAudio2 related issue. There is very little information related to this issue available on the internet. Reportedly updating drivers/direct x 11/vsruntime can remedy this issue. ";
-      }if (lowercaseRegistersLog.includes("memoryheap")) {
+      } if (lowercaseRegistersLog.includes("memoryheap")) {
         return "Possibly a memory heap related issue. ";
-      }if (lowercaseRegistersLog.includes("ostim.dll")) {
+      } if (lowercaseRegistersLog.includes("ostim.dll")) {
         return "Probably an issue related to the mod Ostim. ";
       } else {
         return "Unable to identify a clear cause for the crash. ";
