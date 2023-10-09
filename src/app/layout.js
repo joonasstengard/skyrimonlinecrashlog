@@ -7,6 +7,7 @@ import { Inter } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'] });
 
+
 const imageArray = [
     'lichimg.png',
     'dwarfimg.png',
@@ -35,7 +36,6 @@ export default function RootLayout({ children }) {
 
     return (
         <html lang="en">
-            
             <body className={`${inter.className} bg-image`} style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center top' }}>
                 {children}
                 <Analytics />

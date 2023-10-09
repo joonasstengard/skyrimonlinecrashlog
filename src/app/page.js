@@ -1,8 +1,14 @@
 
 import CrashLogComponent from '../components/CrashLogComponent';
 
+export const metadata = {
+  title: 'Skyrim Crash Decoder',
+  description: 'Reads and analyzes your Skyrim Crash Log',
+}
+
 
 export default function Home() {
+  
 
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
