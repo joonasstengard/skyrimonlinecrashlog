@@ -288,6 +288,18 @@ function CrashLogComponent() {
           }
         }
         return "Possibly an animation related issue. Try again with a new log if the tool fails to identify the faulty animation. ";
+      } if (lowercaseRegistersLog.includes("tesobjectarmo")) {
+        //trying to find the armor causing issues
+        const lines = lowercaseRegistersLog.split('\n');
+        // Iterate through each line
+        for (const line of lines) {
+          // Check if the line includes name
+          if (line.includes("name:")) {
+            // If found, return the line
+            return "Probably an issue related to some armor, clothing or jewelry piece, possibly related to this: "+line.trim();
+          }
+        }
+        return "Probably an issue related to some armor, clothing or jewelry piece. Can't seem to pinpoint the exact object from this log. ";
       } if (lowercaseRegistersLog.includes("movementpathmanagerarbiter")) {
         return "Seems like an NPC pathing related issue. See below if the tool is able to give more details about what is causing it. For more information, you can also google for MovementPathManagerArbiter and see discussions about other people having the same issue. ";
       } if (lowercaseRegistersLog.includes("hdtsmp") || lowercaseRegistersLog.includes("hdt-smp")) {
