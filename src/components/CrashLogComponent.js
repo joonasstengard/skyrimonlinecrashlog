@@ -248,7 +248,7 @@ function CrashLogComponent() {
         return "Possibly a BSLightingShader related issue. ";
       } if (lowercaseRegistersLog.includes("playercharacter")) {
         //KOKEELLINEN
-        return "Possibly an issue related to the Player character. ";
+        return "Possibly an issue related to the Player character. Unfortunately these are often very generic crashes that are difficult to diagnoze from the log. You can try to think of any mods that are affecting the player character, especially at the moment when the crash happened. This could include animation mods and mods accessing the player record directly, as well as more indirect mods. ";
       } if (lowercaseRegistersLog.includes("bsgeometrylistcullingprocess")) {
         //KOKEELLINEN
         return "The crash is related to BSGeometryListCullingProcess. Unfortunately, the author of this application is not very familiar with what that means. From Google, I was able to find speculation that it might be related to Occlusion planes or cubes in a cell, but I can't confirm this. Mods that have been reported to cause this issue include at least FacelightPlus and eFPS. ";
