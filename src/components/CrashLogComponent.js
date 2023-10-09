@@ -182,7 +182,9 @@ function CrashLogComponent() {
         return "Seems like an issue related to follower pathing. People who use follower mods or follower framework mods report experiencing this crash, especially when travelling. This can also be caused by other allies, summons or animals, even horses. If there was an NPC following you when this crash happened, you can try disabling related mods or tweaking with their mods settings. ";
       } if (lowercaseRegistersLog.includes("tesobjectrefr")) {
         return "Probably an issue with an Object Reference (this could be an item or an NPC placed or modified by a mod). ";
-      } if (lowercaseRegistersLog.includes("tesnpc")) {
+      } if (lowercaseRegistersLog.includes("teslevitem")) {
+        return "It looks like a leveled item is causing an issue. Check below in the report if the tool was able to find the name and/or the FormID of the problematic item or its origin mod. ";
+      }if (lowercaseRegistersLog.includes("tesnpc")) {
         return "Probably an issue with an NPC. ";
       } if (lowercaseRegistersLog.includes("navmesh")) {
         return "Seems like a navmesh related issue. ";
