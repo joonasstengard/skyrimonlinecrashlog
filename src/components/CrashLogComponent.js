@@ -222,10 +222,10 @@ function CrashLogComponent() {
           // Check if the line includes ".nif"
           if (line.includes(".nif")) {
             // If found, return the line
-            return "The following mesh is seemingly causing an issue: "+line.trim();
+            return "The following mesh is seemingly part of the issue: "+line.trim();
           }
         }
-        return "Possibly an issue with a mesh. ";
+        return "Possibly an issue with a mesh. Could not pinpoint a problematic mesh from this log. ";
       } if (lowercaseRegistersLog.includes("testopicinfo")) {
         //KOKEELLINEN
         return "Seems like a dialog related issue. ";
@@ -332,6 +332,18 @@ function CrashLogComponent() {
           }
         }
         return "Can't seem to pinpoint the issue. ";
+      } if (lowercaseRegistersLog.includes("hrtfxapoeffect")) {
+        //trying to see if its an audio related issue
+        const lines = registersAndStackLog.split('\n');
+        //Iterate through each line
+        for (const line of lines) {
+          //Check if the line includes ".nif"
+          if (line.includes("Audio")) {
+            //If found, return the line
+            return "There is very little information available online about HrtfXapoEffect, but it could indicate an audio related issue. Possible related to the following line in your crash log: "+line.trim();
+          }
+        }
+        return "There is very little information available online about HrtfXapoEffect, but it could indicate an audio related issue. ";
       } if (lowercaseRegistersLog.includes("bssscript::internal::virtualmachine")) {
         return "The crash log seems to be pointing to BSScript::Internal::VirtualMachine. Unfortunately, there is extremely little information available about what that means. Don't be fooled by the word script in the name though, this crash probably has nothing to do with Papyrus. Try to get another crash log. ";
       } if (lowercaseRegistersLog.includes("bgsprocedurefindexecstate")) {
