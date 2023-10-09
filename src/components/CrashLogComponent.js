@@ -385,7 +385,7 @@ function CrashLogComponent() {
     <div className="container flex flex-col items-center justify-center mx-auto mt-10">
       <textarea
         placeholder="Paste your Crash Log here."
-        className="border border-gray-400 w-3/5 p-2 mt-2 rounded-md font-semibold hover:border-gray-700 bg-black bg-opacity-75 h-64 resize-y"
+        className="border border-gray-400 w-full lg:w-3/5 p-2 mt-2 rounded-md font-semibold hover:border-gray-700 bg-black bg-opacity-75 h-64 resize-y"
         id="crashLogInput"
         value={crashLogText} // Bind the value of the textarea to the state variable
         onChange={handleTextareaChange} // Call handleTextareaChange when the textarea changes
@@ -398,7 +398,7 @@ function CrashLogComponent() {
       </button>
 
       <h4 className="text-3xl mt-10">Report</h4>
-      <div className="border border-gray-400 w-3/5 pt-2 pl-4 pr-4 pb-4 mt-3 rounded-md font-semibold bg-black bg-opacity-75 resize-y my-component">
+      <div className="border border-gray-400 w-full lg:w-3/5 pt-2 pl-4 pr-4 pb-4 mt-3 rounded-md font-semibold bg-black bg-opacity-75 resize-y my-component">
           <p className="mt-3 mb-3 text-center">{crashLogReportTitle}</p>
           <p className="mt-3 mb-3">{crashLogReportCause}</p>
           <p className="mt-3 mb-3">{crashLogReportModifiedBy}</p>
