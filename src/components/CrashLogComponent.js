@@ -334,6 +334,8 @@ function CrashLogComponent() {
         return "Can't seem to pinpoint the issue. ";
       } if (lowercaseRegistersLog.includes("bssscript::internal::virtualmachine")) {
         return "The crash log seems to be pointing to BSScript::Internal::VirtualMachine. Unfortunately, there is extremely little information available about what that means. Don't be fooled by the word script in the name though, this crash probably has nothing to do with Papyrus. Try to get another crash log. ";
+      } if (lowercaseRegistersLog.includes("bgsprocedurefindexecstate")) {
+        return "The crash log seems to point to BGSProcedureFindExecState. This is an exceedingly rare crash, unfortunately there is practically no information about this available online. Could be related to AI packages, but there is no proof for that. Try to get another crash log. ";
       } else {
         return "Unable to identify a clear cause for the crash. ";
       }
