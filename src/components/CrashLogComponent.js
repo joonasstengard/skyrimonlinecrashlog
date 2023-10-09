@@ -178,11 +178,11 @@ function CrashLogComponent() {
         return "It seems that the crash might be caused by a deleted reference. This can happen when content from Mod A or Skyrim.esm is deleted by Mod B, which is then accessed by Mod C. Check the FormID section below to see which reference might've been deleted. ";
       } if (lowercaseRegistersLog.includes("facegen")) {
         //getting the line that includes name
-        const lines = lowercaseRegistersLog.split('\n');
+        const lines = registersAndStackLog.split('\n');
         // terate through each line
         for (const line of lines) {
           //Check if the line includes "name"
-          if (line.includes("name:")) {
+          if (line.includes("Name:")) {
             // If found, return the line
             return "Probably a FaceGen issue. Could be missing or corrupt FaceGen data or some other NPC face related problem. Possibly related to: "+line.trim();
           }
