@@ -1,5 +1,6 @@
 'use client';
 
+import { Analytics } from '@vercel/analytics/react';
 import React, { useEffect, useState } from 'react';
 import './globals.css';
 import { Inter } from 'next/font/google';
@@ -37,6 +38,7 @@ export default function RootLayout({ children }) {
             
             <body className={`${inter.className} bg-image`} style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center top' }}>
                 {children}
+                <Analytics />
             </body>
         </html>
     );
