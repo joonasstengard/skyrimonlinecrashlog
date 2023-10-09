@@ -88,7 +88,7 @@ function CrashLogComponent() {
         for (const line of linesProbableCallStack) {
           // Check if the line includes "dyndolod"
           if (line.includes("dyndolod")) {
-            setCrashLogReportTitle("== Skyrim Online Crash Log v1.0 Report ==");
+            setCrashLogReportTitle("== Skyrim Crash Decoder v1.0 Report ==");
             setCrashLogReportCause("It seems likely that the crash was caused by DynDOLOD. ");
             return;
           }
@@ -120,7 +120,7 @@ function CrashLogComponent() {
     
     //generating final report--------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------------------------------
-    setCrashLogReportTitle("== Skyrim Online Crash Log v1.0 Report ==");
+    setCrashLogReportTitle("== Skyrim Crash Decoder v1.0 Report ==");
     setCrashLogReportCause(reasonForCrash);
     if(modifiedByLine !== "Not found. "){
       if (modifiedByLine.startsWith("Modified by:")) {
@@ -385,20 +385,20 @@ function CrashLogComponent() {
     <div className="container flex flex-col items-center justify-center mx-auto mt-10">
       <textarea
         placeholder="Paste your Crash Log here."
-        className="border border-gray-600 w-3/5 p-2 mt-2 rounded-md font-semibold hover:border-gray-700 bg-black bg-opacity-75 h-64 resize-y"
+        className="border border-gray-400 w-3/5 p-2 mt-2 rounded-md font-semibold hover:border-gray-700 bg-black bg-opacity-75 h-64 resize-y"
         id="crashLogInput"
         value={crashLogText} // Bind the value of the textarea to the state variable
         onChange={handleTextareaChange} // Call handleTextareaChange when the textarea changes
       />
       <button
-        className="border border-gray-600 mt-3 p-3 rounded-md hover:border-gray-700 bg-black bg-opacity-75"
+        className="border border-gray-400 mt-3 p-3 rounded-md hover:border-gray-700 bg-black bg-opacity-75"
         onClick={generateReport} // Call generateReport when the button is clicked
       >
         Generate report
       </button>
 
       <h4 className="text-3xl mt-10">Report</h4>
-      <div className="border border-gray-600 w-3/5 pt-2 pl-4 pr-4 pb-4 mt-3 rounded-md font-semibold bg-black bg-opacity-75 resize-y">
+      <div className="border border-gray-400 w-3/5 pt-2 pl-4 pr-4 pb-4 mt-3 rounded-md font-semibold bg-black bg-opacity-75 resize-y my-component">
           <p className="mt-3 mb-3 text-center">{crashLogReportTitle}</p>
           <p className="mt-3 mb-3">{crashLogReportCause}</p>
           <p className="mt-3 mb-3">{crashLogReportModifiedBy}</p>

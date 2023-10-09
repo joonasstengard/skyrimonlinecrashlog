@@ -1,17 +1,43 @@
-import './globals.css'
-import { Inter } from 'next/font/google'
+'use client';
 
-const inter = Inter({ subsets: ['latin'] })
+import React, { useEffect, useState } from 'react';
+import './globals.css';
+import { Inter } from 'next/font/google';
 
-export const metadata = {
-  title: 'Skyrim Online Crash Log Reader',
-  description: 'Reads your crash logs',
-}
+const inter = Inter({ subsets: ['latin'] });
+
+const imageArray = [
+    'lichimg.png',
+    'dwarfimg.png',
+    'spiderimg.png',
+    'dreadimg.png',
+    'taloimg.png',
+    'taloimg.png',
+    'whiterunimg.png',
+    'hrothimg.png',
+    'hrothimg.png',
+    'hrothimg.png'
+    //more images can be added here as the background image is randomized between these
+];
 
 export default function RootLayout({ children }) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
-  )
+    const [backgroundImage, setBackgroundImage] = useState('');
+
+    useEffect(() => {
+        const getRandomImage = () => {
+            const randomIndex = Math.floor(Math.random() * imageArray.length);
+            return imageArray[randomIndex];
+        };
+
+        setBackgroundImage(getRandomImage());
+    }, []);
+
+    return (
+        <html lang="en">
+            
+            <body className={`${inter.className} bg-image`} style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center top' }}>
+                {children}
+            </body>
+        </html>
+    );
 }

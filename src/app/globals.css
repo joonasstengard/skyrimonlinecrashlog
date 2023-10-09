@@ -18,34 +18,45 @@
 
 body {
   color: #ebebeb;
-  background-image: url('/dwarfimg.png'), url('/lichimg.png'); /* Multiple background images separated by a comma */
-  background-size: cover, cover; /* Set the size for both background images */
-  background-repeat: no-repeat, no-repeat; /* Prevent both images from repeating */
-  background-position: center top, center bottom;
+  
+  background-image: url('/lichimg.png'); 
+  background-size: cover; 
+  background-repeat: no-repeat;
+  background-position: center top;
+
   text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
   margin: 0;
   padding: 0;
-  
-  /*background: black;*/
+
 }
 
 p {
-  font-size: 18px;
+  font-size: 19px;
+  font-family: 'Lato', sans-serif;
 }
 
 h1{
   margin-bottom:5px;
+  font-family: 'Lato', sans-serif;
 }
 
 a{
   color:#e8e5c5;
+  font-family: 'Lato', sans-serif;
 }
-
-
-
-
 
 /* For Firefox */
 textarea {
   scrollbar-color: black gray; /* Thumb and track colors */
+  font-family: 'Lato', sans-serif;
+}
+
+textarea::placeholder {
+  color: #ebebeb;
+  font-family: 'Lato', sans-serif;
+}
+
+.wwwSpan{
+  font-size:18px;
+  color:#dedcdc;
 }

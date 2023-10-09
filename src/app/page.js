@@ -9,7 +9,7 @@ export default function Home() {
 
 
       <div className="container flex flex-col items-center justify-center mx-auto mt-4">
-        <h1 className="text-3xl lg:text-5xl md:text-4xl">Skyrim Online Crash Log Reader</h1>
+        <h1 className="text-3xl lg:text-5xl md:text-4xl"><span className="wwwSpan">www.</span> Skyrim Crash Decoder <span className="wwwSpan">.com</span></h1>
         <p>Version 1.0</p>
       </div>
       
