@@ -27,36 +27,30 @@ body {
   text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
   margin: 0;
   padding: 0;
-
 }
 
 p {
   font-size: 1rem;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
 }
 
-h1{
-  margin-bottom:5px;
-  font-family: 'Lato', sans-serif;
+h1 {
+  margin-bottom: 5px;
+  font-family: "Lato", sans-serif;
 }
 
-a{
-  color:#e8e5c5;
-  font-family: 'Lato', sans-serif;
+a {
+  color: #e8e5c5;
+  font-family: "Lato", sans-serif;
 }
 
 /* For Firefox */
 textarea {
   scrollbar-color: black gray; /* Thumb and track colors */
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
 }
 
 textarea::placeholder {
   color: #ebebeb;
-  font-family: 'Lato', sans-serif;
-}
-
-.wwwSpan{
-  font-size:1rem;
-  color:#dedcdc;
+  font-family: "Lato", sans-serif;
 }

@@ -447,7 +447,7 @@ function CrashLogComponent() {
 
 
   return (
-    <div className="container flex flex-col items-center justify-center mx-auto mt-10">
+    <div className="container flex flex-col items-center justify-center mx-auto mt-5">
       <textarea
         placeholder="Paste your Crash Log here."
         className="border border-gray-400 w-full lg:w-3/5 p-2 mt-2 rounded-md font-semibold hover:border-gray-700 bg-black bg-opacity-75 h-64 resize-y"
