@@ -18,13 +18,14 @@
 
 body {
   color: #ebebeb;
-  
-  background-image: url('/lichimg.png'); 
-  background-size: cover; 
+
+  background-image: url("/lichimg.png");
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center top;
 
-  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black,
+    1px 1px 0 black;
   margin: 0;
   padding: 0;
 }
@@ -53,4 +54,29 @@ textarea {
 textarea::placeholder {
   color: #ebebeb;
   font-family: "Lato", sans-serif;
+}
+
+.fade-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.fade-effect::before,
+.fade-effect::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 20px; /* Adjust height as needed */
+  pointer-events: none;
+}
+
+.fade-effect::before {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent);
+}
+
+.fade-effect::after {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
 }
