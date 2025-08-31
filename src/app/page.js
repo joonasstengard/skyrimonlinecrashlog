@@ -4,7 +4,7 @@ import Logo from "../../public/skyrimcrashdecoderlogo.png";
 
 export const metadata = {
   title: "Skyrim Crash Decoder",
-  description: "Need help on how to read your Skyrim crash log?",
+  description: "Need help on how to read your Skyrim crash log? Simply paste your Crash Log here!",
 };
 
 export default function Home() {
